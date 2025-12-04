@@ -53,7 +53,7 @@ body {
 
 .subheadline {
     font-size: 0.95rem;
-    color: #4b5563;
+    color: black;
 }
 
 /* Badge */
@@ -65,10 +65,17 @@ body {
     border-radius: 999px;
     background: rgba(59, 130, 246, 0.08);
     color: #F52B02;
-    font-size: 0.75rem;
+    font-size: 1.2rem;
     font-weight: 1000;
     text-transform: uppercase;
     letter-spacing: 0.08em;
+    margin-left: -6px;
+}
+
+.badge-second{
+    font-size: 0.9rem;
+    font-weight: 750;
+    margin-top: 4px;
 }
 
 /* Inputkort */
@@ -143,7 +150,7 @@ body {
 
 /* Resultatkort */
 .result-card {
-    background: #FF6142;
+    background: #FF452B;
     border-radius: 16px;
     padding: 12px 14px;
     border: 1px solid #dbeafe;
@@ -202,7 +209,7 @@ body {
 
 .audiologist-item.highlight {
     background: rgba(59, 130, 246, 0.08);
-    color: #1d4ed8;
+    color: red;
     font-weight: 600;
 }
 
