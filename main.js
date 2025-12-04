@@ -139,7 +139,7 @@ function handleSearch() {
     </div>
   ;
 
-  `;
+  `
 
     // Zoom kortet ind på audiologen
     if (nearest.marker) {
