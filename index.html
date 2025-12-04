@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8" />
+    <title>Høreservice Danmark – Nærmeste audiolog</title>
+
+    <!-- Egen CSS -->
+    <link rel="stylesheet" href="style.css" />
+
+    <!-- Leaflet CSS (kortbibliotek uden API-nøgle) -->
+    <link
+            rel="stylesheet"
+            href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+            integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+            crossorigin=""
+    />
+</head>
+<body>
+<div class="app">
+    <div class="left">
+        <div class="badge">
+            Høreservice Danmark · Audiologer i hele landet
+        </div>
+
+        <h1 class="headline">Find den nærmeste audiolog</h1>
+
+        <p class="subheadline">
+            Indtast et <strong>postnummer</strong> eller en <strong>adresse</strong>,
+            så finder vi den audiolog, der er tættest på – og viser bilen på kortet.
+        </p>
+
+        <div class="input-card">
+            <label for="searchInput" class="input-label">
+                Søg på postnummer eller adresse
+            </label>
+            <div class="field-row">
+                <input
+                        id="searchInput"
+                        type="text"
+                        placeholder="Fx 2840 eller ”Holte Stationsvej 18, 2840 Holte”"
+                />
+                <button id="searchBtn" type="button">
+                    Find audiolog
+                    <span>🔍</span>
+                </button>
+            </div>
+            <div class="hint">
+                Tip: Systemet kigger efter det første <strong>4-cifrede postnummer</strong> i din tekst.
+            </div>
+            <div id="errorMsg" class="error"></div>
+        </div>
+
+        <div id="resultBox" class="result-card">
+            <div class="result-main">
+                Indtast et postnummer for at finde den nærmeste audiolog.
+            </div>
+            <div class="result-sub">
+                Vi matcher på forskellen mellem postnumre (simpel afstands-beregning).
+            </div>
+        </div>
+
+        <div class="audiologist-list" id="audiologistList">
+            <!-- Listen udfyldes via JavaScript -->
+        </div>
+    </div>
+
+    <div class="right">
+        <div id="map"></div>
+    </div>
+</div>
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<!-- Din egen JavaScript -->
+<script src="main.js"></script>
+
+<!-- Egen JavaScript -->
+</body>
+</html>
