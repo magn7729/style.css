@@ -57,11 +57,13 @@ audiologists.forEach(a => {
     a.marker = marker;
 });
 
+// DOM-elementer
 const searchInput   = document.getElementById('searchInput');
 const searchBtn     = document.getElementById('searchBtn');
 const resultBox     = document.getElementById('resultBox');
 const errorMsg      = document.getElementById('errorMsg');
 const listContainer = document.getElementById('audiologistList');
+const notification  = document.getElementById('notification');
 
 // Byg liste til venstre
 function renderList(selected) {
@@ -86,6 +88,7 @@ function renderList(selected) {
 
 renderList(null);
 
+// Find nærmeste audiolog ud fra postnummer-afstand
 function findNearestAudiologist(postcode) {
     let nearest = null;
     let smallestDiff = Infinity;
@@ -101,6 +104,41 @@ function findNearestAudiologist(postcode) {
     return nearest;
 }
 
+// Estimer køre-minutter uden API (grov model)
+function estimateDriveMinutes(originPostcode, audiologistPostcode) {
+    const diff = Math.abs(originPostcode - audiologistPostcode);
+
+    // Simpelt estimat: ca. 1 minut pr. 5 postnumre forskel
+    let minutes = Math.round(diff / 5);
+
+    // Sæt nogle fornuftige grænser
+    if (minutes < 5) minutes = 5;      // minimum 5 minutter
+    if (minutes > 180) minutes = 180;  // maksimum 3 timer
+
+    return minutes;
+}
+
+// Notifikation (toast)
+let notificationTimeout = null;
+
+function showNotification(message) {
+    if (!notification) return;
+
+    notification.textContent = message;
+    notification.classList.add('show');
+
+    // Fjern tidligere timeout hvis der er en
+    if (notificationTimeout) {
+        clearTimeout(notificationTimeout);
+    }
+
+    // Skjul efter 4 sekunder
+    notificationTimeout = setTimeout(() => {
+        notification.classList.remove('show');
+    }, 4000);
+}
+
+// Håndter søgning
 function handleSearch() {
     const text = searchInput.value.trim();
     errorMsg.style.display = 'none';
@@ -129,6 +167,9 @@ function handleSearch() {
         return;
     }
 
+    // Estimer køre-minutter
+    const minutes = estimateDriveMinutes(postcode, nearest.postcode);
+
     // Opdater tekst-boksen med resultat
     resultBox.innerHTML = `
     <div class="result-main">
@@ -136,9 +177,8 @@ function handleSearch() {
     </div>
     <div class="result-sub">
       Nærmeste ud fra postnummer-afstand: deres postnummer er ${nearest.postcode} (${nearest.city}).
+      Vi anslår ca. ${minutes} minutters kørsel til destinationen.
     </div>
-  ;
-
   `;
 
     // Zoom kortet ind på audiologen
@@ -149,6 +189,9 @@ function handleSearch() {
 
     // Highlight i listen
     renderList(nearest);
+
+    // Notifikation
+    showNotification(`Du skal sende ${nearest.name} afsted, vedkommende har ca. ${minutes} minutters kørsel til destinationen.`);
 }
 
 // Event listeners
